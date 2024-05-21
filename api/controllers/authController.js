@@ -67,7 +67,7 @@ module.exports = {
 
 	log_in: asyncHandler(async (req, res, next) => {
 		passport.authenticate('local', { session: false }, (err, user, info) => {
-			if (err || !user) {	
+			if (err || !user) {
 				return res.status(401).json({
 					info,
 				});
@@ -80,7 +80,7 @@ module.exports = {
 					expiresIn: '1d',
 				});
 
-				return res.status(200).json({ token });
+				return res.status(200).json({ token, user });
 			});
 		})(req, res, next);
 	}),

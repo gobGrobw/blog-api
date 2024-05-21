@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
-require('./passport.js');
+require('./middleware/passport.js');
 
 const app = express();
 

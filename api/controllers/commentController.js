@@ -19,7 +19,7 @@ module.exports = {
 			const comment = new Comment({
 				author: req.user._id,
 				message: req.body.message,
-				blog: req.params.id,
+				blog: req.params.blogid,
 				date: new Date(),
 			});
 
@@ -33,14 +33,12 @@ module.exports = {
 	update_comment: [
 		body('message').trim().escape(),
 		asyncHandler(async (req, res, next) => {
-			const errors = validation(req);
+			const errors = validationResult(req);
 			if (!errors.isEmpty()) return next(errors);
 
 			const updatedComment = new Comment({
 				_id: req.params.commentid,
-				author: req.user._id,
 				message: req.body.message,
-				blog: req.params.id,
 				date: new Date(),
 			});
 

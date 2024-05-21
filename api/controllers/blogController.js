@@ -1,5 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 // Model
 const Blog = require('../models/Blog');
@@ -42,12 +44,17 @@ module.exports = {
 			.escape(),
 
 		asyncHandler(async (req, res, next) => {
+			jwt.verify(req.token, process.env.TOKEN_KEY, (err) => {
+				if (err) return res.status(403).json({ err });
+			});
+
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				res.status(401).json({ error: errors.array() });
 				return next(errors);
 			}
 
+			console.log(req.user);
 			const blog = new Blog({
 				title: req.body.title,
 				message: req.body.message,
@@ -73,6 +80,10 @@ module.exports = {
 			.escape(),
 
 		asyncHandler(async (req, res, next) => {
+			jwt.verify(req.token, process.env.TOKEN_KEY, (err) => {
+				if (err) return res.sendStatus(403);
+			});
+
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				res.status(401).json({ error: errors.array() });
@@ -92,6 +103,10 @@ module.exports = {
 	],
 
 	delete_blog: asyncHandler(async (req, res, next) => {
+		jwt.verify(req.token, process.env.TOKEN_KEY, (err) => {
+			if (err) return res.sendStatus(403);
+		});
+
 		try {
 			await Blog.findByIdAndDelete(req.params.id);
 			return res.status(202).json({ msg: 'DELETE success' });
