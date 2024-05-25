@@ -8,26 +8,20 @@ const Blog = require('../models/Blog');
 
 module.exports = {
 	get_blogs: asyncHandler(async (req, res) => {
-		const blogs = await Blog.find().exec();
+		const blogs = await Blog.find({}).populate('author', 'username').exec();
 
-		return res.status(200).json({
-			payload: blogs,
-		});
+		return res.status(200).json(blogs);
 	}),
 
 	get_specific_blog: asyncHandler(async (req, res) => {
 		try {
 			const id = req.params.id;
-			const blog = await Blog.findById(id).exec();
+			const blog = await Blog.findById(id).populate('author', 'username').exec();
 			const status = blog === null ? 204 : 200;
 
-			return res.status(status).json({
-				payload: blog,
-			});
+			return res.status(status).json(blog);
 		} catch (error) {
-			res.status(404).json({
-				payload: error,
-			});
+			res.status(404).json(error);
 		}
 	}),
 

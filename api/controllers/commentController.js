@@ -5,6 +5,16 @@ const { body, validationResult } = require('express-validator');
 const Comment = require('../models/Comment');
 
 module.exports = {
+	get_blog_comments: asyncHandler(async (req, res) => {
+		const comments = await Comment.find({ blog: req.params.id })
+			.populate('author', 'username')
+			.sort({ date: -1 })
+			.exec();
+
+		console.log(comments);
+		res.status(200).json(comments);
+	}),
+
 	post_comment: [
 		body('message')
 			.trim()
@@ -17,9 +27,9 @@ module.exports = {
 			if (!errors.isEmpty()) return next(errors);
 
 			const comment = new Comment({
-				author: req.user._id,
+				author: req.body.user._id,
 				message: req.body.message,
-				blog: req.params.blogid,
+				blog: req.body.blogid,
 				date: new Date(),
 			});
 

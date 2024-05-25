@@ -42,8 +42,11 @@ router.post('/log-in', user_controller.log_in);
  * 	COMMENT ROUTES
  */
 
+// Get all blog comments
+router.get('/comment/:id', comment_controller.get_blog_comments);
+
 // Post comment
-router.post('/blogs/:blogid/comment', verifyToken, comment_controller.post_comment);
+router.post('/comment', verifyToken, comment_controller.post_comment);
 
 // Update comment
 router.patch(

@@ -14,7 +14,7 @@ passport.use(
 			if (!user) return done(null, false, { message: 'Incorrect username' });
 
 			// Check if password match account
-			const match = bcrypt.compare(password, user.password);
+			const match = await bcrypt.compare(password, user.password);
 			if (!match) return done(null, false, { message: 'Incorrect password' });
 
 			return done(null, user);
@@ -25,3 +25,4 @@ passport.use(
 );
 
 module.exports = passport;
+

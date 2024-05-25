@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv').config();
 require('./middleware/passport.js');
 
@@ -20,6 +21,11 @@ mongoose
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(
+	cors({
+		origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+	})
+);
 
 // Setting request handler
 app.get('/', (req, res) => {
@@ -29,7 +35,7 @@ app.get('/', (req, res) => {
 app.use('/api', apiRouter);
 
 // Turning server on
-app.listen(3000, () => {
+app.listen(8080, () => {
 	console.log('Server online');
 });
 

@@ -48,7 +48,7 @@ module.exports = {
 		asyncHandler(async (req, res, next) => {
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
-				res.status(401).json({ errors: errors.array() });
+				res.status(401).json(errors.array());
 				return next(errors);
 			}
 
@@ -68,9 +68,8 @@ module.exports = {
 	log_in: asyncHandler(async (req, res, next) => {
 		passport.authenticate('local', { session: false }, (err, user, info) => {
 			if (err || !user) {
-				return res.status(401).json({
-					info,
-				});
+				res.status(401).json(info);
+				return next(err);
 			}
 
 			req.login(user, { session: false }, (err) => {
