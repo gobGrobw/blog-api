@@ -3,10 +3,13 @@
 	"rewrites": [{ "source": "/(.*)", "destination": "/api" }],
 	"headers": [
 		{
-			"source": "/(.*)",
+			"source": "/api/(.*)",
 			"headers": [
 				{ "key": "Access-Control-Allow-Credentials", "value": "true" },
-				{ "key": "Access-Control-Allow-Origin", "value": "*" },
+				{
+					"key": "Access-Control-Allow-Origin",
+					"value": "https://blog-client-iota-liard.vercel.app/"
+				},
 				{
 					"key": "Access-Control-Allow-Methods",
 					"value": "GET,OPTIONS,PATCH,DELETE,POST,PUT"
