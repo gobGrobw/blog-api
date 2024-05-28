@@ -3,7 +3,7 @@
 	"rewrites": [{ "source": "/(.*)", "destination": "/api" }],
 	"headers": [
 		{
-			"source": "/api/(.*)",
+			"source": "https://blog-client-iota-liard.vercel.app",
 			"headers": [
 				{ "key": "Access-Control-Allow-Credentials", "value": "true" },
 				{ "key": "Access-Control-Allow-Origin", "value": "*" },
